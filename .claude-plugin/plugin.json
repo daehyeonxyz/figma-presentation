@@ -1,12 +1,12 @@
 {
   "name": "figma-ppt",
-  "description": "Generate Figma presentation slides like building a 1920×1080 web page. Extracts design tokens from existing Figma files and produces production-grade slide decks via Figma Plugin API.",
+  "description": "Generate Figma presentation slides by building a real 1920×1080 HTML/CSS website and capturing it into editable Figma frames via Claude Code + Figma Dev Mode MCP. No API key needed.",
   "author": {
-    "name": "your-name",
-    "url": "https://github.com/your-username/figma-ppt-plugin"
+    "name": "daehyeonxyz",
+    "url": "https://github.com/daehyeonxyz"
   },
-  "homepage": "https://github.com/your-username/figma-ppt-plugin",
-  "repository": "https://github.com/your-username/figma-ppt-plugin",
+  "homepage": "https://github.com/daehyeonxyz/figma-presentation",
+  "repository": "https://github.com/daehyeonxyz/figma-presentation",
   "license": "MIT",
   "keywords": ["figma", "presentation", "slides", "frontend", "design-tokens", "MCP"],
   "recommendedPlugins": [
