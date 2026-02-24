@@ -1,0 +1,13 @@
+{
+  "name": "Figma Presentation — AI Slide Generator",
+  "id": "figma-presentation-ai",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["https://api.anthropic.com"],
+    "reasoning": "Calls Anthropic Claude API to generate slide plans from user content"
+  }
+}
