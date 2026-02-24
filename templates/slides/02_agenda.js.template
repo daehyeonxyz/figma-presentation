@@ -1,0 +1,73 @@
+async function buildAgenda(data, index) {
+  const f = makeFrame(data.heading || 'Agenda', index);
+  const pri = STYLE.colors.primary || '#2D3FE0';
+  const bg  = STYLE.colors.background || '#FFFFFF';
+  const textPri = STYLE.colors.text.primary || '#1A1A2E';
+  const sec = STYLE.colors.secondary || pri;
+
+  // Left accent stripe
+  addRect(f, 0, 0, 6, H, pri);
+
+  // Background
+  addRect(f, 6, 0, W - 6, H, bg);
+
+  // Section label
+  const captTypo = {
+    fontFamily: STYLE.typography.caption?.fontFamily || 'Inter',
+    fontStyle: 'SemiBold',
+    fontSize: 12,
+    letterSpacing: 4,
+    colorOverride: pri
+  };
+  const labelText = (data.sectionLabel || 'AGENDA').toUpperCase();
+  await addText(f, labelText, captTypo, P.left, P.top, W - P.left * 2);
+
+  // Heading
+  const headTypo = {
+    ...(STYLE.typography.heading2 || STYLE.typography.heading1 || {}),
+    fontStyle: 'Bold',
+    colorOverride: textPri
+  };
+  await addText(f, data.heading || "Today's Agenda", headTypo, P.left, P.top + 36, W * 0.55);
+
+  // Decorative rule
+  addRect(f, P.left, P.top + 36 + (STYLE.typography.heading2?.fontSize || 48) + 20, 100, 4, pri);
+
+  // Agenda items
+  const items = data.items || [];
+  const startY = P.top + 36 + (STYLE.typography.heading2?.fontSize || 48) + 56;
+  const itemH = 72;
+  const itemGapAdjust = IGAP;
+
+  for (let i = 0; i < items.length; i++) {
+    const itemY = startY + i * (itemH + itemGapAdjust);
+
+    // Number
+    const numTypo = {
+      fontFamily: STYLE.typography.heading2?.fontFamily || 'Inter',
+      fontStyle: 'Bold',
+      fontSize: 36,
+      colorOverride: pri
+    };
+    await addText(f, String(i + 1).padStart(2, '0'), numTypo, P.left, itemY, 56);
+
+    // Vertical divider between number and text
+    addRect(f, P.left + 66, itemY + 12, 2, 40, pri);
+
+    // Item text
+    const itemTypo = {
+      ...(STYLE.typography.body || {}),
+      fontStyle: 'Medium',
+      fontSize: 22,
+      colorOverride: textPri
+    };
+    await addText(f, items[i], itemTypo, P.left + 84, itemY + 16, W * 0.70);
+
+    // Light horizontal rule between items (except last)
+    if (i < items.length - 1) {
+      addRect(f, P.left, itemY + itemH + Math.floor(itemGapAdjust / 2), W - P.left - P.right, 1, textPri, 0, 0.08);
+    }
+  }
+
+  return f;
+}

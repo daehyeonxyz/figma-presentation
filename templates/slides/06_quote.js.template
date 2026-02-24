@@ -1,0 +1,76 @@
+async function buildQuote(data, index) {
+  const f = makeFrame(data.attribution || 'Quote', index);
+  const pri = STYLE.colors.primary || '#2D3FE0';
+  const dark = STYLE.colors.primaryDark || pri;
+  const inv = STYLE.colors.text.inverse || '#FFFFFF';
+  const sec = STYLE.colors.secondary || pri;
+
+  // Full-bleed background
+  const bgColor = data.background || dark;
+  addRect(f, 0, 0, W, H, bgColor);
+
+  // Subtle overlay for depth
+  addRect(f, 0, 0, W, H, '#000000', 0, 0.12);
+
+  // Geometric accent shape (bottom right)
+  addEllipse(f, W * 0.60, H * 0.15, H * 1.1, H * 1.1, inv, 0.03);
+  addEllipse(f, W * 0.70, H * 0.25, H * 0.65, H * 0.65, inv, 0.04);
+
+  // Giant decorative quotation mark
+  const quoteMarkTypo = {
+    fontFamily: STYLE.typography.heading1?.fontFamily || 'Inter',
+    fontStyle: 'Bold',
+    fontSize: 340,
+    colorOverride: inv
+  };
+  const qm = await addText(f, '\u201C', quoteMarkTypo, P.left - 30, -60);
+  if (qm) qm.fills = solidAlpha(inv, 0.07);
+
+  // Quote text (centered, large display)
+  const displayTypo = STYLE.typography.display || STYLE.typography.heading2 || STYLE.typography.body || {};
+  const quoteSize = Math.min(52, displayTypo.fontSize || 52);
+  const quoteTypo = {
+    ...displayTypo,
+    fontSize: quoteSize,
+    fontStyle: displayTypo.fontStyle || 'Regular',
+    colorOverride: inv,
+    lineHeight: 1.5
+  };
+  const quoteW = W * 0.68;
+  const quoteX = (W - quoteW) / 2;
+  const quoteY = H * 0.24;
+  await addText(f, `\u201C${data.quote || ''}\u201D`, quoteTypo, quoteX, quoteY, quoteW);
+
+  // Attribution separator line (centered)
+  const sepW = 64;
+  const sepX = (W - sepW) / 2;
+  const sepY = H * 0.70;
+  addRect(f, sepX, sepY, sepW, 3, sec);
+
+  // Attribution name
+  const attrTypo = {
+    fontFamily: STYLE.typography.body?.fontFamily || 'Inter',
+    fontStyle: 'SemiBold',
+    fontSize: 20,
+    colorOverride: inv
+  };
+  const attrNode = await addText(f, `\u2014 ${data.attribution || ''}`, attrTypo, 0, sepY + 20, W);
+  if (attrNode) attrNode.textAlignHorizontal = 'CENTER';
+
+  // Role / title
+  if (data.role) {
+    const roleTypo = {
+      fontFamily: STYLE.typography.caption?.fontFamily || 'Inter',
+      fontStyle: 'Regular',
+      fontSize: 16,
+      colorOverride: inv
+    };
+    const roleNode = await addText(f, data.role, roleTypo, 0, sepY + 52, W);
+    if (roleNode) {
+      roleNode.fills = solidAlpha(inv, 0.65);
+      roleNode.textAlignHorizontal = 'CENTER';
+    }
+  }
+
+  return f;
+}

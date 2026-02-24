@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Generated output (not committed)
+figma-slides-*.js
+style-guide.json
+slides-plan.json
+
+# OS
+.DS_Store
+Thumbs.db

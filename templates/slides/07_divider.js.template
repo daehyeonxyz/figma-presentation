@@ -1,0 +1,67 @@
+async function buildDivider(data, index) {
+  const f = makeFrame(data.sectionTitle || 'Section', index);
+  const pri = STYLE.colors.primary || '#2D3FE0';
+  const bg  = STYLE.colors.background || '#FFFFFF';
+  const textPri = STYLE.colors.text.primary || '#1A1A2E';
+  const textSec = STYLE.colors.text.secondary || '#6B7280';
+  const inv = STYLE.colors.text.inverse || '#FFFFFF';
+  const sec = STYLE.colors.secondary || pri;
+
+  // Left color panel (42% width)
+  const panelW = W * 0.42;
+  addRect(f, 0, 0, panelW, H, pri);
+
+  // Diagonal accent strip (creates visual energy at the seam)
+  addRect(f, panelW - 2, 0, 44, H, sec);
+
+  // Right background panel
+  addRect(f, panelW + 40, 0, W - panelW - 40, H, bg);
+
+  // Large section number as watermark (on color panel)
+  const sectionNum = String(data.sectionNumber || index + 1).padStart(2, '0');
+  const wmTypo = {
+    fontFamily: STYLE.typography.heading1?.fontFamily || 'Inter',
+    fontStyle: 'Bold',
+    fontSize: 300,
+    colorOverride: inv
+  };
+  const wm = await addText(f, sectionNum, wmTypo, P.left - 20, H * 0.12);
+  if (wm) wm.fills = solidAlpha(inv, 0.10);
+
+  // "SECTION N" label on left panel
+  const captTypo = {
+    fontFamily: STYLE.typography.caption?.fontFamily || 'Inter',
+    fontStyle: 'SemiBold',
+    fontSize: 13,
+    letterSpacing: 4,
+    colorOverride: inv
+  };
+  await addText(f, `SECTION ${data.sectionNumber || index + 1}`, captTypo, P.left, H * 0.36, panelW - P.left - 20);
+
+  // Right panel: section title
+  const rightX = panelW + 80;
+  const rightW = W - rightX - P.right;
+
+  const titleTypo = {
+    ...(STYLE.typography.heading1 || {}),
+    fontStyle: 'Bold',
+    fontSize: Math.min(STYLE.typography.heading1?.fontSize || 72, 72),
+    colorOverride: textPri
+  };
+  await addText(f, data.sectionTitle || 'Section', titleTypo, rightX, H * 0.30, rightW);
+
+  // Accent underline
+  addRect(f, rightX, H * 0.30 + 72 + 24, 100, 4, pri);
+
+  // Description
+  if (data.description) {
+    const descTypo = {
+      ...(STYLE.typography.body || {}),
+      fontSize: 22,
+      colorOverride: textSec
+    };
+    await addText(f, data.description, descTypo, rightX, H * 0.30 + 72 + 56, rightW);
+  }
+
+  return f;
+}

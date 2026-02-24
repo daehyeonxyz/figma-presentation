@@ -1,0 +1,65 @@
+async function buildContent(data, index) {
+  const f = makeFrame(data.heading || 'Content', index);
+  const textPri = STYLE.colors.text.primary || '#1A1A2E';
+  const textSec = STYLE.colors.text.secondary || '#6B7280';
+  const pri = STYLE.colors.primary || '#2D3FE0';
+  const surf = STYLE.colors.surface || '#F5F6FF';
+
+  // Header bar
+  headerBar(f, data.sectionLabel, data.heading || 'Content', index);
+
+  // Content area starts below header
+  const contentY = HDR + P.top * 0.6;
+  const hasImage = !!data.imageHint;
+  const textW = hasImage ? W * 0.52 - P.left : W - P.left - P.right;
+
+  // Body paragraph (if present)
+  let curY = contentY;
+  if (data.body) {
+    const bodyTypo = {
+      ...(STYLE.typography.body || {}),
+      fontSize: 20,
+      colorOverride: textSec
+    };
+    await addText(f, data.body, bodyTypo, P.left, curY, textW);
+    curY += (Math.ceil(data.body.length / 80) * 28) + IGAP;
+  }
+
+  // Bullets
+  if (data.bullets && data.bullets.length > 0) {
+    for (let i = 0; i < data.bullets.length; i++) {
+      const bY = curY + i * (30 + IGAP);
+
+      // Bullet marker (filled circle)
+      addRect(f, P.left, bY + 11, 8, 8, pri, 4);
+
+      // Bullet text
+      const bulletTypo = {
+        ...(STYLE.typography.body || {}),
+        fontSize: 22,
+        colorOverride: textPri
+      };
+      await addText(f, data.bullets[i], bulletTypo, P.left + 24, bY, textW - 24);
+    }
+  }
+
+  // Image placeholder (right side)
+  if (hasImage) {
+    const imgX = W * 0.58;
+    const imgW = W - imgX - P.right;
+    const imgH = H - HDR - P.top * 0.6 - P.bottom;
+
+    addRect(f, imgX, contentY, imgW, imgH * 0.88, surf, CR);
+
+    // Image hint label
+    const hintTypo = {
+      fontFamily: STYLE.typography.caption?.fontFamily || 'Inter',
+      fontStyle: 'Regular',
+      fontSize: 14,
+      colorOverride: textSec
+    };
+    await addText(f, `[ ${data.imageHint} ]`, hintTypo, imgX + 20, contentY + 20, imgW - 40);
+  }
+
+  return f;
+}

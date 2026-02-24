@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "sourceFileKey": "SdGZEUntr5Xm2isZjzj20B",
+    "sourceFileName": "Brand Design System v2",
+    "extractedAt": "2025-02-24T14:30:00Z",
+    "confidence": 0.88,
+    "notes": "heading3 inferred from heading2 scaled 0.6x. Korean font Pretendard detected."
+  },
+  "colors": {
+    "primary":    "#F88912",
+    "primaryDark":"#C46B0A",
+    "secondary":  "#FFB347",
+    "background": "#171717",
+    "surface":    "#222222",
+    "surfaceAlt": "#2A2A2A",
+    "text": {
+      "primary":   "#F5F5F5",
+      "secondary": "#999999",
+      "inverse":   "#171717",
+      "accent":    "#F88912"
+    },
+    "extras": [
+      { "name": "error",   "hex": "#FF4F4F" },
+      { "name": "success", "hex": "#4CAF50" },
+      { "name": "blue",    "hex": "#4169E1" }
+    ]
+  },
+  "typography": {
+    "heading1": { "fontFamily": "Pretendard", "fontStyle": "ExtraBold", "fontSize": 72, "lineHeight": 1.1,  "letterSpacing": -2.0 },
+    "heading2": { "fontFamily": "Pretendard", "fontStyle": "Bold",      "fontSize": 48, "lineHeight": 1.2,  "letterSpacing": -1.2 },
+    "heading3": { "fontFamily": "Pretendard", "fontStyle": "SemiBold",  "fontSize": 30, "lineHeight": 1.35, "letterSpacing": -0.4 },
+    "body":     { "fontFamily": "Pretendard", "fontStyle": "Regular",   "fontSize": 20, "lineHeight": 1.65, "letterSpacing": 0    },
+    "caption":  { "fontFamily": "Pretendard", "fontStyle": "Regular",   "fontSize": 14, "lineHeight": 1.5,  "letterSpacing": 0.1  },
+    "display":  { "fontFamily": "Pretendard", "fontStyle": "Light",     "fontSize": 56, "lineHeight": 1.4,  "letterSpacing": -1.0 }
+  },
+  "layout": {
+    "slideWidth":   1920,
+    "slideHeight":  1080,
+    "contentPadding": { "top": 72, "right": 96, "bottom": 72, "left": 96 },
+    "headerHeight": 120,
+    "columnGap":    40,
+    "itemGap":      20,
+    "cornerRadius": 8,
+    "frameSpacing": 80
+  },
+  "aesthetic": {
+    "direction": "bold",
+    "backgroundStyle": "solid",
+    "motionStyle": "dynamic"
+  }
+}

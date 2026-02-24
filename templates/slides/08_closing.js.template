@@ -1,0 +1,101 @@
+async function buildClosing(data, index) {
+  const f = makeFrame(data.heading || 'Thank You', index);
+  const pri = STYLE.colors.primary || '#2D3FE0';
+  const inv = STYLE.colors.text.inverse || '#FFFFFF';
+  const sec = STYLE.colors.secondary || pri;
+  const textInv = inv;
+
+  // Full-bleed primary background
+  addRect(f, 0, 0, W, H, pri);
+
+  // Decorative circles (like CSS radial gradients layered)
+  addEllipse(f, W * 0.50, H * 0.08, H * 1.15, H * 1.15, inv, 0.04);
+  addEllipse(f, W * 0.62, H * 0.22, H * 0.70, H * 0.70, inv, 0.05);
+  addEllipse(f, W * 0.45, H * 0.55, H * 0.40, H * 0.40, inv, 0.03);
+
+  // Tagline (small caps, above heading)
+  const tagline = (data.tagline || 'THANK YOU').toUpperCase();
+  const captTypo = {
+    fontFamily: STYLE.typography.caption?.fontFamily || 'Inter',
+    fontStyle: 'SemiBold',
+    fontSize: 13,
+    letterSpacing: 4,
+    colorOverride: sec === pri ? inv : sec
+  };
+  await addText(f, tagline, captTypo, P.left, H * 0.25, W * 0.45);
+
+  // Main heading
+  const headTypo = {
+    ...(STYLE.typography.heading1 || {}),
+    fontStyle: 'Bold',
+    colorOverride: textInv
+  };
+  await addText(f, data.heading || 'Thank You', headTypo, P.left, H * 0.32, W * 0.46);
+
+  // Subheading
+  if (data.subheading) {
+    const subTypo = {
+      ...(STYLE.typography.body || {}),
+      fontSize: 22,
+      fontStyle: 'Regular',
+      colorOverride: textInv
+    };
+    const subNode = await addText(f, data.subheading, subTypo, P.left, H * 0.32 + (STYLE.typography.heading1?.fontSize || 64) + 16, W * 0.46);
+    if (subNode) subNode.fills = solidAlpha(textInv, 0.75);
+  }
+
+  // Key takeaways (right column)
+  if (data.keyTakeaways && data.keyTakeaways.length > 0) {
+    const rightX = W * 0.52;
+    const rightW = W - rightX - P.right;
+
+    const takeawayLabelTypo = {
+      fontFamily: STYLE.typography.caption?.fontFamily || 'Inter',
+      fontStyle: 'SemiBold',
+      fontSize: 12,
+      letterSpacing: 3,
+      colorOverride: textInv
+    };
+    const labelNode = await addText(f, 'KEY TAKEAWAYS', takeawayLabelTypo, rightX, H * 0.25, rightW);
+    if (labelNode) labelNode.fills = solidAlpha(textInv, 0.6);
+
+    for (let i = 0; i < data.keyTakeaways.length; i++) {
+      const ptY = H * 0.32 + i * 60;
+      addRect(f, rightX, ptY + 10, 6, 6, sec === pri ? inv : sec, 3);
+      const ptTypo = {
+        ...(STYLE.typography.body || {}),
+        fontSize: 18,
+        fontStyle: 'Regular',
+        colorOverride: textInv
+      };
+      await addText(f, data.keyTakeaways[i], ptTypo, rightX + 24, ptY, rightW - 24);
+    }
+  }
+
+  // Horizontal rule (full width, semi-transparent)
+  const hrY = H * 0.78;
+  addRect(f, P.left, hrY, W - P.left - P.right, 1, textInv, 0, 0.2);
+
+  // CTA / Contact info
+  if (data.contactInfo) {
+    const contactTypo = {
+      fontFamily: STYLE.typography.caption?.fontFamily || 'Inter',
+      fontStyle: 'Regular',
+      fontSize: 16,
+      colorOverride: textInv
+    };
+    const cNode = await addText(f, data.contactInfo, contactTypo, P.left, hrY + 20, W * 0.45);
+    if (cNode) cNode.fills = solidAlpha(textInv, 0.65);
+  }
+  if (data.cta) {
+    const ctaTypo = {
+      fontFamily: STYLE.typography.body?.fontFamily || 'Inter',
+      fontStyle: 'SemiBold',
+      fontSize: 18,
+      colorOverride: sec === pri ? textInv : sec
+    };
+    await addText(f, data.cta, ctaTypo, P.left, hrY + 48, W * 0.45);
+  }
+
+  return f;
+}

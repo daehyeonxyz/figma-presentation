@@ -1,0 +1,73 @@
+async function buildTwoCol(data, index) {
+  const f = makeFrame(data.heading || 'Two Column', index);
+  const pri = STYLE.colors.primary || '#2D3FE0';
+  const surf = STYLE.colors.surface || '#F5F6FF';
+  const textPri = STYLE.colors.text.primary || '#1A1A2E';
+  const textSec = STYLE.colors.text.secondary || '#6B7280';
+
+  // Header bar
+  headerBar(f, data.sectionLabel, data.heading || 'Comparison', index);
+
+  // Two column layout
+  const colY = HDR + P.top * 0.5;
+  const colH = H - colY - P.bottom;
+  const colW = (W - P.left - P.right - GAP) / 2;
+  const leftX = P.left;
+  const rightX = P.left + colW + GAP;
+
+  for (const [colX, colData] of [[leftX, data.leftCol], [rightX, data.rightCol]]) {
+    if (!colData) continue;
+
+    // Card background
+    addRect(f, colX, colY, colW, colH, surf, CR);
+
+    // Left accent border on card
+    addRect(f, colX, colY, 4, colData.heading ? 60 : 40, pri);
+    // Rounded top-left corner cover
+    addRect(f, colX, colY, 4, CR, pri);
+
+    // Column heading
+    let nextY = colY + 20;
+    if (colData.heading) {
+      const h3Typo = {
+        ...(STYLE.typography.heading3 || STYLE.typography.body || {}),
+        fontStyle: 'SemiBold',
+        fontSize: 24,
+        colorOverride: textPri
+      };
+      await addText(f, colData.heading, h3Typo, colX + 24, nextY, colW - 48);
+      nextY += (STYLE.typography.heading3?.fontSize || 24) + 20;
+
+      // Thin rule below heading
+      addRect(f, colX + 24, nextY, colW - 48, 1, pri, 0, 0.3);
+      nextY += 16;
+    }
+
+    // Body
+    if (colData.body) {
+      const bodyTypo = {
+        ...(STYLE.typography.body || {}),
+        fontSize: 18,
+        colorOverride: textSec
+      };
+      await addText(f, colData.body, bodyTypo, colX + 24, nextY, colW - 48);
+      nextY += Math.ceil(colData.body.length / 50) * 26 + 16;
+    }
+
+    // Bullets
+    if (colData.bullets) {
+      for (let i = 0; i < colData.bullets.length; i++) {
+        const bY = nextY + i * (26 + 12);
+        addRect(f, colX + 24, bY + 10, 6, 6, pri, 3);
+        const bulletTypo = {
+          ...(STYLE.typography.body || {}),
+          fontSize: 18,
+          colorOverride: textPri
+        };
+        await addText(f, colData.bullets[i], bulletTypo, colX + 44, bY, colW - 68);
+      }
+    }
+  }
+
+  return f;
+}

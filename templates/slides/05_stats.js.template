@@ -1,0 +1,79 @@
+async function buildStats(data, index) {
+  const f = makeFrame(data.heading || 'Statistics', index);
+  const pri = STYLE.colors.primary || '#2D3FE0';
+  const surf = STYLE.colors.surface || '#F5F6FF';
+  const textPri = STYLE.colors.text.primary || '#1A1A2E';
+  const textSec = STYLE.colors.text.secondary || '#6B7280';
+
+  // Header bar
+  headerBar(f, data.sectionLabel, data.heading || 'Key Metrics', index);
+
+  // Stat cards
+  const stats = data.stats || [];
+  const count = Math.min(stats.length, 4);
+  if (count === 0) return f;
+
+  const cardAreaW = W - P.left - P.right;
+  const cardGap = GAP;
+  const cardW = (cardAreaW - cardGap * (count - 1)) / count;
+  const cardY = HDR + P.top * 0.5;
+  const cardH = H - cardY - P.bottom;
+
+  for (let i = 0; i < count; i++) {
+    const stat = stats[i];
+    const cardX = P.left + i * (cardW + cardGap);
+
+    // Card background
+    addRect(f, cardX, cardY, cardW, cardH, surf, CR);
+
+    // Top accent bar
+    addRect(f, cardX, cardY, cardW, 6, pri);
+
+    // Big stat number (the hero element of this card)
+    const numSize = Math.min(88, cardW * 0.28);
+    const numTypo = {
+      fontFamily: STYLE.typography.heading1?.fontFamily || 'Inter',
+      fontStyle: 'ExtraBold',
+      fontSize: numSize,
+      colorOverride: pri,
+      letterSpacing: -2
+    };
+    await addText(f, String(stat.number || '—'), numTypo, cardX + 32, cardY + 32, cardW - 64);
+
+    // Trend (e.g. "+23%", "↑ 8 pts")
+    if (stat.trend) {
+      const isNegative = String(stat.trend).startsWith('-') || String(stat.trend).startsWith('↓');
+      const trendColor = isNegative ? '#E53935' : '#43A047';
+      const trendTypo = {
+        fontFamily: STYLE.typography.body?.fontFamily || 'Inter',
+        fontStyle: 'SemiBold',
+        fontSize: 18,
+        colorOverride: trendColor
+      };
+      await addText(f, String(stat.trend), trendTypo, cardX + 32, cardY + 32 + numSize + 8, cardW - 64);
+    }
+
+    // Stat label
+    const labelTypo = {
+      ...(STYLE.typography.heading3 || STYLE.typography.body || {}),
+      fontStyle: 'SemiBold',
+      fontSize: 20,
+      colorOverride: textPri
+    };
+    const labelY = cardY + cardH * 0.58;
+    await addText(f, stat.label || '', labelTypo, cardX + 32, labelY, cardW - 64);
+
+    // Description
+    if (stat.description) {
+      const descTypo = {
+        ...(STYLE.typography.caption || STYLE.typography.body || {}),
+        fontSize: 15,
+        fontStyle: 'Regular',
+        colorOverride: textSec
+      };
+      await addText(f, stat.description, descTypo, cardX + 32, labelY + 32, cardW - 64);
+    }
+  }
+
+  return f;
+}

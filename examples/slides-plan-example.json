@@ -1,0 +1,141 @@
+{
+  "title": "2025 Product Vision",
+  "aesthetic": "bold",
+  "tone": "inspirational",
+  "audience": "executives",
+  "slideCount": 10,
+  "slides": [
+    {
+      "type": "HERO",
+      "content": {
+        "title": "2025 Product Vision",
+        "subtitle": "Redefining the Developer Workflow",
+        "tagline": "Q1 ALL-HANDS PRESENTATION",
+        "author": "Jane Lee, CTO",
+        "date": "February 2025"
+      }
+    },
+    {
+      "type": "AGENDA",
+      "content": {
+        "heading": "Today's Agenda",
+        "sectionLabel": "OVERVIEW",
+        "items": [
+          "Market Landscape",
+          "Our Solution",
+          "2025 Roadmap",
+          "Key Metrics",
+          "Call to Action"
+        ]
+      }
+    },
+    {
+      "type": "DIVIDER",
+      "content": {
+        "sectionNumber": 1,
+        "sectionTitle": "Market Landscape",
+        "description": "Why the opportunity is now"
+      }
+    },
+    {
+      "type": "STATS",
+      "content": {
+        "sectionLabel": "THE OPPORTUNITY",
+        "heading": "The Market is Ready",
+        "stats": [
+          { "number": "$4.2T", "label": "Market Size by 2027",  "trend": "+18% CAGR",  "description": "Global developer tools market" },
+          { "number": "340M",  "label": "Target Developers",    "trend": null,           "description": "Professional & indie devs worldwide" },
+          { "number": "73%",   "label": "Unmet Need",           "trend": null,           "description": "Report fragmented workflows" }
+        ]
+      }
+    },
+    {
+      "type": "CONTENT",
+      "content": {
+        "sectionLabel": "THE PROBLEM",
+        "heading": "Why Current Tools Fall Short",
+        "body": null,
+        "bullets": [
+          "Developers lose 2.4 hours/day to context-switching between tools",
+          "Fragmented workflows reduce team velocity by 40% on average",
+          "Existing tools weren't designed for AI-assisted development",
+          "No single platform connects design, code, deployment, and feedback"
+        ],
+        "imageHint": null
+      }
+    },
+    {
+      "type": "DIVIDER",
+      "content": {
+        "sectionNumber": 2,
+        "sectionTitle": "Our Solution",
+        "description": "One platform, infinite velocity"
+      }
+    },
+    {
+      "type": "TWO_COL",
+      "content": {
+        "sectionLabel": "HOW IT WORKS",
+        "heading": "The Platform Architecture",
+        "leftCol": {
+          "heading": "AI Layer",
+          "body": null,
+          "bullets": [
+            "Context-aware code completion",
+            "Real-time error detection & fixes",
+            "Natural language → production code",
+            "Automated code review"
+          ]
+        },
+        "rightCol": {
+          "heading": "Data Layer",
+          "body": null,
+          "bullets": [
+            "Unified codebase indexing",
+            "Sub-50ms query latency",
+            "Zero-trust security model",
+            "SOC 2 Type II certified"
+          ]
+        }
+      }
+    },
+    {
+      "type": "QUOTE",
+      "content": {
+        "quote": "Every company will become a software company. The question is whether they'll have the tools to move fast enough.",
+        "attribution": "Satya Nadella",
+        "role": "CEO, Microsoft",
+        "background": null
+      }
+    },
+    {
+      "type": "STATS",
+      "content": {
+        "sectionLabel": "TRACTION",
+        "heading": "Proof Points",
+        "stats": [
+          { "number": "$12.4M", "label": "ARR",             "trend": "+43% YoY",  "description": "Annual recurring revenue" },
+          { "number": "94%",    "label": "Logo Retention",  "trend": "+8 pts",    "description": "12-month cohort" },
+          { "number": "4.8★",   "label": "G2 Rating",       "trend": null,         "description": "1,200+ reviews" },
+          { "number": "340ms",  "label": "Avg. Response",   "trend": "↓ 60%",     "description": "vs. 840ms last Q" }
+        ]
+      }
+    },
+    {
+      "type": "CLOSING",
+      "content": {
+        "tagline": "LET'S BUILD TOGETHER",
+        "heading": "Join the Movement",
+        "subheading": "Series B open — $24M raise for global expansion",
+        "keyTakeaways": [
+          "$4.2T market opportunity by 2027",
+          "Proven traction: $12.4M ARR, 94% retention",
+          "AI-native platform: zero legacy constraints",
+          "Team of 48 across SF, Seoul, and Berlin"
+        ],
+        "cta": "Schedule a demo → hello@company.com",
+        "contactInfo": "www.company.com  ·  @company  ·  (415) 555-0100"
+      }
+    }
+  ]
+}

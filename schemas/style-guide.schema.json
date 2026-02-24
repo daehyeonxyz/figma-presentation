@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FigmaPPT StyleGuide",
+  "description": "Design tokens extracted from a Figma file for 1920x1080 presentation generation",
+  "type": "object",
+  "required": ["meta", "colors", "typography", "layout"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "properties": {
+        "sourceFileKey":  { "type": "string" },
+        "sourceFileName": { "type": "string" },
+        "extractedAt":    { "type": "string", "format": "date-time" },
+        "confidence":     { "type": "number", "minimum": 0, "maximum": 1 },
+        "notes":          { "type": "string" }
+      }
+    },
+    "colors": {
+      "type": "object",
+      "required": ["primary", "background", "text"],
+      "properties": {
+        "primary":     { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "primaryDark": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "secondary":   { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "background":  { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "surface":     { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "surfaceAlt":  { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "text": {
+          "type": "object",
+          "required": ["primary"],
+          "properties": {
+            "primary":   { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "secondary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "inverse":   { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "accent":    { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+          }
+        },
+        "extras": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "hex"],
+            "properties": {
+              "name": { "type": "string" },
+              "hex":  { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+            }
+          }
+        }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "required": ["heading1", "body"],
+      "properties": {
+        "heading1":  { "$ref": "#/definitions/textStyle" },
+        "heading2":  { "$ref": "#/definitions/textStyle" },
+        "heading3":  { "$ref": "#/definitions/textStyle" },
+        "body":      { "$ref": "#/definitions/textStyle" },
+        "bodyLarge": { "$ref": "#/definitions/textStyle" },
+        "caption":   { "$ref": "#/definitions/textStyle" },
+        "display":   { "$ref": "#/definitions/textStyle" },
+        "code":      { "$ref": "#/definitions/textStyle" }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "required": ["slideWidth", "slideHeight"],
+      "properties": {
+        "slideWidth":     { "type": "number", "default": 1920 },
+        "slideHeight":    { "type": "number", "default": 1080 },
+        "contentPadding": {
+          "type": "object",
+          "properties": {
+            "top":    { "type": "number", "default": 80 },
+            "right":  { "type": "number", "default": 96 },
+            "bottom": { "type": "number", "default": 80 },
+            "left":   { "type": "number", "default": 96 }
+          }
+        },
+        "headerHeight":  { "type": "number", "default": 128 },
+        "columnGap":     { "type": "number", "default": 48 },
+        "itemGap":       { "type": "number", "default": 24 },
+        "cornerRadius":  { "type": "number", "default": 12 },
+        "frameSpacing":  { "type": "number", "default": 80 }
+      }
+    },
+    "aesthetic": {
+      "type": "object",
+      "description": "Aesthetic direction inferred from the design (used by figma-ppt skill)",
+      "properties": {
+        "direction": {
+          "type": "string",
+          "enum": ["minimal", "bold", "luxury", "editorial", "technical", "playful", "brutalist", "retro"]
+        },
+        "backgroundStyle": {
+          "type": "string",
+          "enum": ["solid", "gradient", "mesh", "geometric", "noise", "layered"],
+          "default": "solid"
+        },
+        "motionStyle": {
+          "type": "string",
+          "enum": ["none", "subtle", "dynamic"],
+          "default": "subtle"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "textStyle": {
+      "type": "object",
+      "required": ["fontFamily", "fontSize"],
+      "properties": {
+        "fontFamily":    { "type": "string" },
+        "fontStyle":     { "type": "string", "default": "Regular" },
+        "fontSize":      { "type": "number" },
+        "lineHeight":    { "type": "number" },
+        "letterSpacing": { "type": "number" },
+        "textTransform": { "type": "string", "enum": ["none", "uppercase", "lowercase"], "default": "none" },
+        "colorOverride": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+      }
+    }
+  }
+}
